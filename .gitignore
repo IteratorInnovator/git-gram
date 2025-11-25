@@ -27,6 +27,9 @@ go.work.sum
 # env file
 .env
 
+# Google Cloud service account credentials
+service-account-credentials.json
+
 # Editor/IDE
 # .idea/
 # .vscode/
