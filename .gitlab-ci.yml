@@ -3,6 +3,9 @@ stages:
   - deploy
 
 
+image: google/cloud-sdk:latest
+
+
 before_script:
   - echo $GCP_SERVICE_ACCOUNT_KEY > /tmp/service-account-key.json
   - gcloud auth activate-service-account --key-file /tmp/service-account-key.json
