@@ -1,0 +1,29 @@
+stages:
+  - build
+  - deploy
+
+
+before_script:
+  - echo $GCP_SERVICE_ACCOUNT_KEY > /tmp/service-account-key.json
+  - gcloud auth activate-service-account --key-file /tmp/service-account-key.json
+  - gcloud projects set $GCP_PROJECT_ID
+
+
+build-job:
+  stage: build
+  only: 
+    - main
+  script:
+    - echo "Hello"
+
+
+deploy-job:
+  stage: deploy
+  only:
+    - main
+  script:
+    - echo "Hello"
+
+
+after_script:
+  - rm /tmp/service-account-key.json
