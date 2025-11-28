@@ -1,0 +1,46 @@
+stages:
+  - build
+  - deploy
+
+
+image: google/cloud-sdk:latest
+
+
+before_script:
+  - echo $GCP_SERVICE_ACCOUNT_KEY | base64 -d > /tmp/service-account-key.json
+  - gcloud auth activate-service-account --key-file /tmp/service-account-key.json
+  - gcloud config set project $GCP_PROJECT_ID
+
+
+variables:
+  IMAGE_BASE: "asia-southeast1-docker.pkg.dev/$GCP_PROJECT_ID/git-gram/git-gram-backend"
+  GCP_REGION: "asia-southeast1"
+
+
+build-job:
+  stage: build
+  only: 
+    - main
+  script:
+    - IMAGE_TAG="${IMAGE_BASE}:${CI_COMMIT_SHORT_SHA}"
+    - gcloud builds submit --tag "$IMAGE_TAG" .
+
+
+deploy-job:
+  stage: deploy
+  only:
+    - main
+  needs:
+    - build-job
+  script:
+    - IMAGE_TAG="${IMAGE_BASE}:${CI_COMMIT_SHORT_SHA}"
+    - gcloud run deploy git-gram-backend \
+        --image "$IMAGE_TAG" \
+        --region "$GCP_REGION" \
+        --platform managed \
+        --allow-unauthenticated \
+        --port 3000
+
+
+after_script:
+  - rm /tmp/service-account-key.json
