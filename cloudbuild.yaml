@@ -2,13 +2,13 @@ options:
     logging: CLOUD_LOGGING_ONLY
 
 substitutions:
-  _TAG_NAME: 'asia-southeast1-docker.pkg.dev/${_PROJECT_ID}/git-gram/git-gram-backend:${_SHORT_SHA}'
+  _TAG_NAME: "asia-southeast1-docker.pkg.dev/${PROJECT_ID}/git-gram/git-gram-backend:${SHORT_SHA}"
 
 steps:
     # Docker Build
-    - name: 'gcr.io/cloud-builders/docker'
-      args: ['build', '-t', '${_TAG_NAME}', '.']
+    - name: "gcr.io/cloud-builders/docker"
+      args: ["build", "-t", "${_TAG_NAME}", "."]
 
 # Push to Artifact Registry
 images:
-  - '${_TAG_NAME}'
+  - "${_TAG_NAME}"
