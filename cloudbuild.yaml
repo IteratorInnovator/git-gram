@@ -1,16 +1,11 @@
 options:
-  logging: CLOUD_LOGGING_ONLY
+    logging: CLOUD_LOGGING_ONLY
 
 steps:
-  # Docker Build
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 
-           '${_TAG_NAME}', 
-           '.']
+    # Docker Build
+    - name: "gcr.io/cloud-builders/docker"
+      args: ["build", "-t", "${TAG_NAME}", "."]
 
-  # Docker Push
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 
-           '${_TAG_NAME}']
-
-      
+    # Docker Push
+    - name: "gcr.io/cloud-builders/docker"
+      args: ["push", "${TAG_NAME}"]
