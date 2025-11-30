@@ -30,6 +30,9 @@ go.work.sum
 # Google Cloud service account credentials
 service-account-credentials.json
 
+# ssh keys
+.ssh/
+
 # Editor/IDE
 # .idea/
 # .vscode/
