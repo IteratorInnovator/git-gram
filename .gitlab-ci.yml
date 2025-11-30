@@ -19,9 +19,7 @@ build-job:
         - main
     script:
         - IMAGE_TAG="${IMAGE_BASE}:${CI_COMMIT_SHORT_SHA}"
-        - gcloud builds submit . \
-          --config cloudbuild.yaml \
-          --substitutions _TAG_NAME="$IMAGE_TAG"
+        - gcloud builds submit . --config=cloudbuild.yaml --substitutions_TAG_NAME="$IMAGE_TAG"
 
 deploy-job:
     stage: deploy
