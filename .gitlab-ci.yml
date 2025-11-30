@@ -35,8 +35,8 @@ deploy-job:
               --region "$GCP_REGION" \
               --platform managed \
               --allow-unauthenticated \
-              --min=1 \
-              --max-instances=5 \
+              --min 1 \
+              --max-instances 5 \
               --port 3000 \
               --set-env-vars PORT=3000,TELEGRAM_BOT_API_TOKEN="$TELEGRAM_BOT_API_TOKEN",TELEGRAM_BOT_API_ENDPOINT="$TELEGRAM_BOT_API_ENDPOINT",GOOGLE_CLOUD_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID"
 
