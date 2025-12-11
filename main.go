@@ -6,13 +6,21 @@ import (
 
 	"github.com/IteratorInnovator/git-gram/config"
 	"github.com/IteratorInnovator/git-gram/db"
-	"github.com/IteratorInnovator/git-gram/server"
+	"github.com/IteratorInnovator/git-gram/models"
+	"github.com/IteratorInnovator/git-gram/services"
+	"github.com/gofiber/fiber/v2"
 )
+
+
 
 func main() {
 	ctx := context.Background()
 
 	config.InitEnv()
+	err := services.SetTelegramWebHook()
+	if err != nil {
+		log.Fatalf("Failed to set Telegram Webhook: %v", err)
+	}
 
 	firestoreClient, err := db.CreateClient(ctx)
 	if err != nil {
@@ -20,9 +28,14 @@ func main() {
 	}
 	defer firestoreClient.Close()
 
-	app := server.New()
+	app := &models.App {
+		Router: fiber.New(),
+		Store: firestoreClient,
+	}
 
-	if err := app.Listen(config.AppCfg.PORT); err != nil {
+	app.RegisterRoutes()
+
+	if err := app.Router.Listen(config.AppCfg.PORT); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
 }
