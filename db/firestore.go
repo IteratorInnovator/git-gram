@@ -1,6 +1,7 @@
 package db
 
 import (
+	"strconv"
 	"context"
 	"cloud.google.com/go/firestore"
 	"github.com/IteratorInnovator/git-gram/config"
@@ -15,15 +16,21 @@ func CreateClient(ctx context.Context) (*firestore.Client, error) {
 	return client, nil
 }
 
-func RegisterChat(ctx context.Context, client *firestore.Client, chat_id int64) error {
+func SaveChat(ctx context.Context, client *firestore.Client, chat_id int64) error {
+	var docId string = strconv.FormatInt(chat_id, 10)
+
 	data := make(map[string]interface{})
 
 	data["chat_id"] = chat_id
 	data["installation_id"] = nil
 	data["mute"] = false
 
-	_, _, err := client.Collection("user").Add(ctx, data)
+	_, err := client.Collection("users").Doc(docId).Create(ctx, data)
 
 	return err
+}
+
+func SaveInstallation(ctx context.Context, client *firestore.Client, chat_id int64, installation_id int64) error {
+	return nil
 }
 
