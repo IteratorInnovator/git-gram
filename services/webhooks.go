@@ -30,10 +30,12 @@ func GetTelegramWebhook() (bool, error) {
 		return false, err
 	}
 
-	if webhook.URL != "" || webhook.SecretToken != config.TelegramCfg.TELEGRAM_WEBHOOK_SECRET_TOKEN {
-		return true, nil
+	// if webhook url is empty, or different from the env tg webhook url, or secret token mismatches
+	// return false, indicating to delete webhook and set a new one
+	if webhook.URL == "" || webhook.URL != config.TelegramCfg.TELEGRAM_WEBHOOK_URL || webhook.SecretToken != config.TelegramCfg.TELEGRAM_WEBHOOK_SECRET_TOKEN {
+		return false, nil
 	}
-	return false, nil
+	return true, nil
 }
 
 func SetTelegramWebHook() error {
@@ -42,8 +44,9 @@ func SetTelegramWebHook() error {
 		return err
 	}
 	if exists {
-		err = DeleteTelegramWebhook()
+		return nil
 	}
+	err = DeleteTelegramWebhook()
 	if err != nil {
 		return nil
 	}
