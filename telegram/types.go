@@ -37,3 +37,12 @@ type WebHookInfo struct {
 	SecretToken    string   `json:"secret_token"`
 	MaxConnections int      `json:"max_connections"`
 }
+
+type InlineKeyboardMarkup struct {
+    InlineKeyboard [][]InlineKeyboardButton `json:"inline_keyboard"`
+}
+
+type InlineKeyboardButton struct {
+	Text string `json:"text"`
+	URL  string `json:"url"`
+}
