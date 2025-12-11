@@ -47,8 +47,9 @@ deploy-job:
               --platform managed \
               --allow-unauthenticated \
               --min 1 \
-              --max-instances 5 \              --port 3000 \
-              --set-env-vars TELEGRAM_BOT_API_TOKEN="$TELEGRAM_BOT_API_TOKEN",TELEGRAM_BOT_API_ENDPOINT="$TELEGRAM_BOT_API_ENDPOINT",GOOGLE_CLOUD_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID"
+              --max-instances 5 \              
+              --port 3000 \
+              --set-env-vars TELEGRAM_BOT_API_TOKEN="$TELEGRAM_BOT_API_TOKEN",TELEGRAM_BOT_API_ENDPOINT="$TELEGRAM_BOT_API_ENDPOINT",TELEGRAM_WEBHOOK_URL="$TELEGRAM_WEBHOOK_URL",TELEGRAM_WEBHOOK_SECRET_TOKEN="$TELEGRAM_WEBHOOK_SECRET_TOKEN",GOOGLE_CLOUD_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID", 
 
 after_script:
     - rm /tmp/service-account-key.json
