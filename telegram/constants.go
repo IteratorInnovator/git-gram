@@ -26,7 +26,7 @@ Receive GitHub activity updates as Telegram messages directly in this chat\.
 📊 Check ` + "`/status`" + ` anytime to verify your connection and notification settings`
 
 
-var InvalidCommandMessage string = `❓ *Command not recognized*
+const InvalidCommandMessage string = `❓ *Command not recognized*
 
 I didn't understand that command\. Try one of these:
 
@@ -36,4 +36,32 @@ I didn't understand that command\. Try one of these:
 
 Need help? Use ` + "`/help`" + ` to see the full command list\.`
 
-var InstallationMessage string = `Install GitHub app`
+
+const InstallationMessage string = `Install GitHub app`
+
+
+const MuteSuccessMessage = `🔕 *Notifications muted*
+
+You will no longer receive GitHub updates in this chat\. Use /unmute to turn notifications back on\.`
+
+
+const MuteBeforeStartErrorMessage = `⚠️ *Setup required*
+
+You have not started GitGram in this chat yet\.  
+Send /start first to link your GitHub installation, then use /mute\.`
+
+
+const UnmuteSuccessMessage = `🔔 *Notifications unmuted*
+
+You will now receive GitHub updates in this chat again\. Use /mute to turn notifications off\.`
+
+
+const UnmuteBeforeStartErrorMessage = `⚠️ *Setup required*
+
+You have not started GitGram in this chat yet\.  
+Send /start first to link your GitHub installation, then use /unmute\.`
+
+
+const DefaultErrorMessage = `⚠️ *Something went wrong*
+
+Failed to process your request\. Please try again later\.`
