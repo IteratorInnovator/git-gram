@@ -14,7 +14,7 @@ import (
 )
 
 func GetTelegramWebhook() (bool, error) {
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "getWebhook")
+	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "getWebhookInfo")
 
 	resp, err := http.Post(url, "application/json", nil)
 	if err != nil {
@@ -22,13 +22,21 @@ func GetTelegramWebhook() (bool, error) {
 	}
 	defer resp.Body.Close()
 	
-	var webhook telegram.WebHookInfo
+	var respBody struct {
+        OK     bool                 `json:"ok"`
+        Result telegram.WebHookInfo `json:"result"`
+    }
 
 	decoder := json.NewDecoder(resp.Body)
-	err = decoder.Decode(&webhook)
+	err = decoder.Decode(&respBody)
 	if err != nil {
 		return false, err
 	}
+	
+	if !respBody.OK {
+		return false, fmt.Errorf("telegram getWebhookInfo returned not ok")
+	}
+	var webhook telegram.WebHookInfo = respBody.Result
 
 	// if webhook url is empty, or different from the env tg webhook url, or secret token mismatches
 	// return false, indicating to delete webhook and set a new one
