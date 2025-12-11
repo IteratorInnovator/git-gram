@@ -26,4 +26,7 @@ func (app* App) RegisterRoutes() {
 		return services.HandleTelegramWebhook(c, app.Store)
 	})
 	github.Post("/webhook", services.HandleGitHubWebhook)
+	github.Get("/installation/success", func(c *fiber.Ctx) error {
+		return services.HandleSuccessfulInstallation(c, app.Store)
+	})
 }
