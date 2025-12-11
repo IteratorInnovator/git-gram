@@ -39,14 +39,26 @@ func handleStart(ctx context.Context, client *firestore.Client, chatId int64) er
 
 	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
 
+	keyboardButtons := [][]InlineKeyboardButton {
+		{ 
+			InlineKeyboardButton { 
+				Text: "Install Git Gram App", 
+				URL: "https://github.com/apps/git-gram-67/installations/new/",
+			},
+		},
+	}
 	payload := struct {
-		ChatID    int    `json:"chat_id"`
-		ParseMode string `json:"parse_mode"`
-		Text      string `json:"text"`
+		ChatID      int                  `json:"chat_id"`
+		ParseMode   string               `json:"parse_mode"`
+		Text        string               `json:"text"`
+		ReplyMarkup InlineKeyboardMarkup `json:"reply_markup"`
 	} {
 		ChatID: int(chatId),
 		ParseMode: "MarkdownV2",
 		Text: InstallationMessage,
+		ReplyMarkup: InlineKeyboardMarkup{
+			InlineKeyboard: keyboardButtons,
+		},
 	}
 
 	reqBody, err := json.Marshal(payload)
