@@ -1,4 +1,5 @@
 stages:
+    - test
     - build
     - deploy
 
@@ -13,10 +14,21 @@ variables:
     IMAGE_BASE: "asia-southeast1-docker.pkg.dev/$GCP_PROJECT_ID/git-gram/git-gram-backend"
     GCP_REGION: "asia-southeast1"
 
+# test-job:
+#     stage: test
+#     image: golang:1.24
+#     script:
+#         - go version
+#         - go mod download
+#         - go run main.go
+#     rules:
+#       - if: "$CI_COMMIT_BRANCH == 'main'"
+
 build-job:
     stage: build
     only:
         - main
+    # needs: ["test"]
     script:
         - IMAGE_TAG="${IMAGE_BASE}:${CI_COMMIT_SHORT_SHA}"
         - gcloud builds submit . --config=cloudbuild.yaml --substitutions=_TAG_NAME="$IMAGE_TAG"
@@ -25,8 +37,7 @@ deploy-job:
     stage: deploy
     only:
         - main
-    needs:
-        - build-job
+    needs: ["build"]
     script:
         - IMAGE_TAG="${IMAGE_BASE}:${CI_COMMIT_SHORT_SHA}"
         - |
@@ -36,8 +47,7 @@ deploy-job:
               --platform managed \
               --allow-unauthenticated \
               --min 1 \
-              --max-instances 5 \
-              --port 3000 \
+              --max-instances 5 \              --port 3000 \
               --set-env-vars TELEGRAM_BOT_API_TOKEN="$TELEGRAM_BOT_API_TOKEN",TELEGRAM_BOT_API_ENDPOINT="$TELEGRAM_BOT_API_ENDPOINT",GOOGLE_CLOUD_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID"
 
 after_script:
