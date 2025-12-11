@@ -1,48 +1,134 @@
 package telegram
 
-func HandleCommands(command string, chatId int64) {
-	switch (command) {
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
+	"net/http"
+
+	"cloud.google.com/go/firestore"
+	"github.com/IteratorInnovator/git-gram/config"
+	"github.com/IteratorInnovator/git-gram/db"
+)
+
+func HandleCommand(ctx context.Context, client *firestore.Client, command string, chatId int64) error {
+	var err error = nil
+
+	switch command {
 	case "/start":
-		handleStart()
+		err = handleStart(ctx, client, chatId)
 	case "/status":
-		handleStatus()
+		err = handleStatus(chatId)
 	case "/mute":
-		handleMute()
+		err = handleMute(chatId)
 	case "/unmute":
-		handleUnmute()
+		err = handleUnmute(chatId)
 	case "/unlink":
-		handleUnlink()
+		err = handleUnlink(chatId)
 	case "/help":
-		handleHelp()
-	default: 
-		handleInvalidCommand()
+		err = handleHelp(chatId)
+	default:
+		err = handleInvalidCommand(chatId)
 	}
+	return err
 }
 
-func handleStart() {
+func handleStart(ctx context.Context, client *firestore.Client, chatId int64) error {
+	go db.SaveChat(ctx, client, chatId)
 
+	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+
+	payload := struct {
+		ChatID    int    `json:"chat_id"`
+		ParseMode string `json:"parse_mode"`
+		Text      string `json:"text"`
+	} {
+		ChatID: int(chatId),
+		ParseMode: "MarkdownV2",
+		Text: InstallationMessage,
+	}
+
+	reqBody, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewReader(reqBody))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
 }
 
-func handleStatus() {
-
+func handleStatus(chatId int64) error {
+	return nil
 }
 
-func handleMute() {
-
+func handleMute(chatId int64) error {
+	return nil
 }
 
-func handleUnmute() {
-
+func handleUnmute(chatId int64) error {
+	return nil
 }
 
-func handleUnlink() {
-
+func handleUnlink(chatId int64) error {
+	return nil
 }
 
-func handleHelp() {
+func handleHelp(chatId int64) error {
+	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
 
+	payload := struct {
+		ChatID    int    `json:"chat_id"`
+		ParseMode string `json:"parse_mode"`
+		Text      string `json:"text"`
+	} {
+		ChatID: int(chatId),
+		ParseMode: "MarkdownV2",
+		Text: HelpMessage,
+	}
+
+	reqBody, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewReader(reqBody))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
 }
 
-func handleInvalidCommand() {
+func handleInvalidCommand(chatId int64) error {
+	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
 
+	payload := struct {
+		ChatID    int    `json:"chat_id"`
+		ParseMode string `json:"parse_mode"`
+		Text      string `json:"text"`
+	} {
+		ChatID: int(chatId),
+		ParseMode: "MarkdownV2",
+		Text: InvalidCommandMessage,
+	}
+
+	reqBody, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewReader(reqBody))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	
+	return nil
 }
