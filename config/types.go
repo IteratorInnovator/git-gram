@@ -15,4 +15,5 @@ type TelegramConfig struct {
 
 type AppConfig struct {
 	PORT string
+	STATE_SECRET string
 }

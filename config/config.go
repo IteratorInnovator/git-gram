@@ -26,5 +26,6 @@ func InitEnv() {
 
 	AppCfg = AppConfig{
 		PORT: fmt.Sprintf(":%v", os.Getenv("PORT")),
+		STATE_SECRET: fmt.Sprintf(":%v", os.Getenv("STATE_SECRET")),
 	}
 }
