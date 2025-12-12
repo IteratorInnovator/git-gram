@@ -46,6 +46,13 @@ To start receiving notifications:
 3\. Return here and send /status to confirm your setup\.`
 
 
+const SuccessfulInstallationMessage string = `✅ *GitHub App installed successfully*
+
+You can now receive GitHub notifications in this chat\.
+
+Send /status to check your connection status\.`
+
+
 const MuteSuccessMessage = `🔕 *Notifications muted*
 
 You will no longer receive GitHub updates in this chat\. Use /unmute to turn notifications back on\.`
