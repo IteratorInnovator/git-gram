@@ -138,3 +138,21 @@ func HandleTelegramWebhook(c *fiber.Ctx, client *firestore.Client) error {
 func HandleGitHubWebhook(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusNotImplemented)
 }
+
+func HandleSuccessfulInstallation(c *fiber.Ctx, client *firestore.Client) error {
+	ctx, cancel := context.WithCancel(c.UserContext())
+	defer cancel()
+
+	var installation_id int64 = int64(c.QueryInt("installation_id"))
+	var stateToken string = c.Query("state")
+	err := telegram.HandlePostInstallation(ctx, client, installation_id, stateToken)
+	if err != nil {
+		c.Set(fiber.HeaderContentType, "application/problem+json")
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status": fiber.StatusBadRequest,
+			"error":  "could not save installation",
+		})
+	}
+	
+	return c.SendStatus(fiber.StatusOK)
+}
