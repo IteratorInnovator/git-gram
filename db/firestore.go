@@ -33,6 +33,21 @@ func SaveChat(ctx context.Context, client *firestore.Client, chat_id int64) erro
 }
 
 func SaveInstallation(ctx context.Context, client *firestore.Client, chat_id int64, installation_id int64) error {
+	var chatId string = strconv.FormatInt(chat_id, 10)
+
+	docRef := client.Collection("users").Doc(chatId)
+	snap, _ := docRef.Get(ctx)
+
+	if !snap.Exists() {
+		return errors.New("doc does not exist")
+	}
+
+	_, err := docRef.Update(ctx, []firestore.Update{
+    	{ Path: "installation_id", Value: installation_id },
+	})
+	if (err != nil) {
+		return errors.New("failed to update installation_id")
+	}
 	return nil
 }
 
