@@ -6,11 +6,46 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	neturl "net/url"
 
 	"cloud.google.com/go/firestore"
 	"github.com/IteratorInnovator/git-gram/config"
 	"github.com/IteratorInnovator/git-gram/db"
 )
+
+func HandlePostInstallation(ctx context.Context, client *firestore.Client, installation_id int64, stateToken string) error {
+	chatId, err := parseAndVerifyStateToken(stateToken)
+	if err != nil {
+		return err
+	}
+	
+	go db.SaveInstallation(ctx, client, chatId, installation_id)
+
+	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+
+	payload := struct {
+		ChatID      int                  `json:"chat_id"`
+		ParseMode   string               `json:"parse_mode"`
+		Text        string               `json:"text"`
+	} {
+		ChatID: int(chatId),
+		ParseMode: "MarkdownV2",
+		Text: SuccessfulInstallationMessage,
+	}
+
+	reqBody, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewReader(reqBody))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	return nil
+}
 
 func HandleCommand(ctx context.Context, client *firestore.Client, command string, chatId int64) error {
 	var err error = nil
@@ -39,11 +74,18 @@ func handleStart(ctx context.Context, client *firestore.Client, chatId int64) er
 
 	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
 
+	stateToken, err := generateStateToken(chatId)
+	if err != nil {
+		return err
+	}
+
+	installationURL := fmt.Sprintf("https://github.com/apps/git-gram-67/installations/new?state=%s", neturl.QueryEscape(stateToken))
+
 	keyboardButtons := [][]InlineKeyboardButton {
 		{ 
 			InlineKeyboardButton { 
 				Text: "Install Git Gram App", 
-				URL: "https://github.com/apps/git-gram-67/installations/new/",
+				URL: installationURL,
 			},
 		},
 	}
