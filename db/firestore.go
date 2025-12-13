@@ -24,7 +24,7 @@ func SaveChat(ctx context.Context, client *firestore.Client, chat_id int64) erro
 	data := make(map[string]interface{})
 
 	data["chat_id"] = chat_id
-	data["installation_id"] = nil
+	data["installation_id"] = 0
 	data["github_account_username"] = ""
 	data["muted"] = false
 
