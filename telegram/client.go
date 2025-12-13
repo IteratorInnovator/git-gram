@@ -66,7 +66,7 @@ func HandleCommand(ctx context.Context, client *firestore.Client, command string
 	case "/unmute":
 		err = handleUnmute(ctx, client, chatId)
 	case "/unlink":
-		err = handleUnlink(chatId)
+		err = handleUnlink(ctx, client, chatId)
 	case "/help":
 		err = handleHelp(chatId)
 	default:
@@ -252,7 +252,45 @@ func handleUnmute(ctx context.Context, client *firestore.Client, chatId int64) e
 	return nil
 }
 
-func handleUnlink(chatId int64) error {
+func handleUnlink(ctx context.Context, client *firestore.Client, chatId int64) error {
+	var message string = UnlinkSuccessMessage
+	installation_id, err := db.FetchInstallationId(ctx, client, chatId)
+	if err != nil {
+		message = UnlinkFailedMessage
+	} else if installation_id == 0 {
+		message = UnlinkNotInstalledMessage
+	} else {
+		err = github.DeleteAppInstallation(installation_id)
+		if err != nil {
+			message = UnlinkFailedMessage
+		}
+
+		db.UpdateInstallation(ctx, client, chatId, 0, "")
+	}
+
+	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+
+	payload := struct {
+		ChatID    int    `json:"chat_id"`
+		ParseMode string `json:"parse_mode"`
+		Text      string `json:"text"`
+	} {
+		ChatID: int(chatId),
+		ParseMode: "MarkdownV2",
+		Text: message,
+	}
+
+	reqBody, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewReader(reqBody))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
 	return nil
 }
 
