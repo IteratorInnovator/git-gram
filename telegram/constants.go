@@ -46,7 +46,7 @@ To start receiving notifications:
 3\. Return here and send /status to confirm your setup\.`
 
 
-const SuccessfulInstallationMessage string = `✅ *GitHub App installed successfully*
+const SuccessfulInstallationMessage string = `✅ *Git Gram App installed successfully*
 
 You can now receive GitHub notifications in this chat\.
 
@@ -73,6 +73,30 @@ const UnmuteBeforeStartErrorMessage = `⚠️ *Setup required*
 
 You have not started GitGram in this chat yet\.  
 Send /start first to link your GitHub installation, then use /unmute\.`
+
+
+const StatusDocNotFoundMessage string = `📋 *Status*
+
+This chat is not registered with Git Gram yet\.
+
+Send /start to set up your GitHub installation, then run /status again\.`
+
+
+const StatusNoInstallationMessage string = `📋 *Status*
+
+You started setup, but the Git Gram app is not installed on GitHub yet\.
+
+Open the previous installation link or send /start to get a new one, then install the app and run /status again\.`
+
+
+const StatusInstalledTemplateMessage string = `📋 *Status*
+
+This chat is linked to the GitHub account: *[%[1]s](https://github.com/%[1]s)*\.
+
+Notifications are currently %s\.
+
+%s\.
+Use /unlink to disconnect this chat from GitHub\.`
 
 
 const DefaultErrorMessage = `⚠️ *Something went wrong*
