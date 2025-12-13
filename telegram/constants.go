@@ -99,6 +99,25 @@ Notifications are currently %s\.
 Use /unlink to disconnect this chat from GitHub\.`
 
 
+const UnlinkSuccessMessage string = `✅ *Unlinked*
+
+Git Gram has been disconnected from your GitHub account\.
+This chat is no longer linked\.
+Use /start to reinstall Git Gram and link again\.`
+
+
+const UnlinkNotInstalledMessage string = `⚠️ *Nothing to unlink*
+
+This chat is not linked to any GitHub account\.
+Use /start to install GitGram and link your GitHub account first\.`
+
+
+const UnlinkFailedMessage string = `❌ *Unlink failed*
+
+I couldn't unlink your GitHub account\. Please try again\.
+If this keeps happening, use /status to confirm your current link state\.`
+
+
 const DefaultErrorMessage = `⚠️ *Something went wrong*
 
 Failed to process your request\. Please try again later\.`

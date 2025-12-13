@@ -16,7 +16,7 @@ func generateGitHubAppJWT() (string, error) {
 	now := time.Now().UTC()
 
 	claims := jwt.RegisteredClaims {
-		Issuer:    config.GithubCfg.GITHUB_APP_CLIENT_ID,      // iss
+		Issuer:    config.GithubCfg.GITHUB_APP_CLIENT_ID,          // iss
 		IssuedAt:  jwt.NewNumericDate(now.Add(-60 * time.Second)), // iat, 60 seconds in the past
 		ExpiresAt: jwt.NewNumericDate(now.Add(9 * time.Minute)),   // exp, under 10 minutes
 	}
