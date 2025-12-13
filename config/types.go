@@ -13,6 +13,11 @@ type TelegramConfig struct {
 	TELEGRAM_WEBHOOK_SECRET_TOKEN string
 }
 
+type GithubConfig struct {
+	GITHUB_APP_CLIENT_ID string
+	GITHUB_APP_PRIVATE_KEY string
+}
+
 type AppConfig struct {
 	PORT string
 	STATE_SECRET string
