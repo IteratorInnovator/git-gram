@@ -11,6 +11,7 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/IteratorInnovator/git-gram/config"
 	"github.com/IteratorInnovator/git-gram/db"
+	"github.com/IteratorInnovator/git-gram/github"
 )
 
 func HandlePostInstallation(ctx context.Context, client *firestore.Client, installation_id int64, stateToken string) error {
@@ -18,15 +19,20 @@ func HandlePostInstallation(ctx context.Context, client *firestore.Client, insta
 	if err != nil {
 		return err
 	}
-	
-	go db.SaveInstallation(ctx, client, chatId, installation_id)
+
+	account_username, err := github.FetchInstallationAccountUsername(installation_id)
+	if err != nil {
+		return err
+	}
+
+	db.UpdateInstallation(ctx, client, chatId, installation_id, account_username)
 
 	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
 
 	payload := struct {
-		ChatID      int                  `json:"chat_id"`
-		ParseMode   string               `json:"parse_mode"`
-		Text        string               `json:"text"`
+		ChatID      int     `json:"chat_id"`
+		ParseMode   string  `json:"parse_mode"`
+		Text        string  `json:"text"`
 	} {
 		ChatID: int(chatId),
 		ParseMode: "MarkdownV2",
@@ -54,7 +60,7 @@ func HandleCommand(ctx context.Context, client *firestore.Client, command string
 	case "/start":
 		err = handleStart(ctx, client, chatId)
 	case "/status":
-		err = handleStatus(chatId)
+		err = handleStatus(ctx, client, chatId)
 	case "/mute":
 		err = handleMute(ctx, client, chatId)
 	case "/unmute":
@@ -70,7 +76,7 @@ func HandleCommand(ctx context.Context, client *firestore.Client, command string
 }
 
 func handleStart(ctx context.Context, client *firestore.Client, chatId int64) error {
-	go db.SaveChat(ctx, client, chatId)
+	db.SaveChat(ctx, client, chatId)
 
 	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
 
@@ -117,7 +123,56 @@ func handleStart(ctx context.Context, client *firestore.Client, chatId int64) er
 	return nil
 }
 
-func handleStatus(chatId int64) error {
+func handleStatus(ctx context.Context, client *firestore.Client, chatId int64) error {
+	account_login, muted, err := db.FetchUserInfo(ctx, client, chatId)
+
+	var message string
+	if err != nil && err.Error() == "user doc does not exist" {
+		message = StatusDocNotFoundMessage
+	} else if account_login == "" {
+		message = StatusNoInstallationMessage
+	} else {
+		var muted_text string
+		var muted_info_text string
+		if muted {
+			muted_text = "muted"
+			muted_info_text = "Use /unmute to resume notifications"
+		} else {
+			muted_text = "unmuted"
+			muted_info_text = "Use /mute to stop notifications"
+		}
+		
+		message = fmt.Sprintf(
+			StatusInstalledTemplateMessage,
+			account_login,
+			muted_text,
+			muted_info_text,
+		)
+	}
+
+	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+
+	payload := struct {
+		ChatID    int    `json:"chat_id"`
+		ParseMode string `json:"parse_mode"`
+		Text      string `json:"text"`
+	} {
+		ChatID: int(chatId),
+		ParseMode: "MarkdownV2",
+		Text: message,
+	}
+
+	reqBody, err := json.Marshal(payload)
+	if err != nil {
+		return err
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewReader(reqBody))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
 	return nil
 }
 
