@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
-	"strings"
+	"encoding/base64"
 
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -13,7 +13,7 @@ var FirestoreCfg FirestoreConfig
 var GithubCfg GithubConfig
 var AppCfg AppConfig
 
-func InitEnv() {
+func InitEnv() error {
 	TelegramCfg = TelegramConfig {
 		TELEGRAM_BOT_API_TOKEN: os.Getenv("TELEGRAM_BOT_API_TOKEN"),
 		TELEGRAM_BOT_API_ENDPOINT: os.Getenv("TELEGRAM_BOT_API_ENDPOINT"),
@@ -26,18 +26,19 @@ func InitEnv() {
 		GOOGLE_CLOUD_PROJECT_ID: os.Getenv("GOOGLE_CLOUD_PROJECT_ID"),
 		FIRESTORE_DATABASE_ID: os.Getenv("FIRESTORE_DATABASE_ID"),
 	}
-	
+
 	GithubCfg = GithubConfig {
 		GITHUB_APP_CLIENT_ID: os.Getenv("GITHUB_APP_CLIENT_ID"),
-		GITHUB_APP_PRIVATE_KEY: strings.ReplaceAll(
-			os.Getenv("GITHUB_APP_PRIVATE_KEY"),
-			`\n`,
-			"\n",
-		),
 	}
+	decodedKey, err := base64.StdEncoding.DecodeString(os.Getenv("GITHUB_APP_PRIVATE_KEY_B64"))
+	if err != nil {
+		return err 
+	}
+	GithubCfg.GITHUB_APP_PRIVATE_KEY = string(decodedKey)
 
 	AppCfg = AppConfig {
 		PORT: fmt.Sprintf(":%v", os.Getenv("PORT")),
 		STATE_SECRET: fmt.Sprintf("%v", os.Getenv("STATE_SECRET")),
 	}
+	return nil
 }

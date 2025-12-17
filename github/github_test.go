@@ -13,6 +13,9 @@ func TestGenerateGitHubAppJWT(t *testing.T) {
 	_ = godotenv.Load("../.env")
 
 	config.InitEnv()
+	if err := config.InitEnv() ; err != nil {
+		t.Fatalf("Error loading environment variables: %v", err)
+	}
 	if config.GithubCfg.GITHUB_APP_PRIVATE_KEY == "" {
 		t.Fatal("GITHUB_APP_PRIVATE_KEY not set for tests")
 	}
@@ -50,7 +53,9 @@ func TestGenerateGitHubAppJWT(t *testing.T) {
 func TestFetchInstallationAccountLogin(t *testing.T) {
 	_ = godotenv.Load("../.env")
 
-	config.InitEnv()
+	if err := config.InitEnv() ; err != nil {
+		t.Fatalf("Error loading environment variables: %v", err)
+	}
 	if config.GithubCfg.GITHUB_APP_PRIVATE_KEY == "" {
 		t.Fatal("GITHUB_APP_PRIVATE_KEY not set for tests")
 	}

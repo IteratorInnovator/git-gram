@@ -16,7 +16,9 @@ import (
 func main() {
 	ctx := context.Background()
 
-	config.InitEnv()
+	if err := config.InitEnv() ; err != nil {
+		log.Fatalf("Error loading environment variables: %v", err)
+	}
 	err := services.SetTelegramWebHook()
 	if err != nil {
 		log.Fatalf("Failed to set Telegram Webhook: %v", err)

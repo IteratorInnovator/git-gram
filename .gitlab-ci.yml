@@ -41,6 +41,19 @@ deploy-job:
     script:
         - IMAGE_TAG="${IMAGE_BASE}:${CI_COMMIT_SHORT_SHA}"
         - |
+            cat > env.yaml << 'EOF'
+            TELEGRAM_BOT_API_TOKEN: "${TELEGRAM_BOT_API_TOKEN}"
+            TELEGRAM_BOT_API_ENDPOINT: "${TELEGRAM_BOT_API_ENDPOINT}"
+            TELEGRAM_WEBHOOK_URL: "${TELEGRAM_WEBHOOK_URL}"
+            TELEGRAM_WEBHOOK_SECRET_TOKEN: "${TELEGRAM_WEBHOOK_SECRET_TOKEN}"
+            GOOGLE_CLOUD_PROJECT_ID: "${GCP_PROJECT_ID}"
+            FIRESTORE_DATABASE_ID: "${FIRESTORE_DATABASE_ID}"
+            GITHUB_WEBHOOK_SECRET_TOKEN: "${GITHUB_WEBHOOK_SECRET_TOKEN}"
+            GITHUB_APP_CLIENT_ID: "${GITHUB_APP_CLIENT_ID}"
+            GITHUB_APP_PRIVATE_KEY_B64: "${GITHUB_APP_PRIVATE_KEY_B64}"
+            STATE_SECRET: "${STATE_SECRET}"
+            EOF
+
             gcloud run deploy git-gram-backend \
               --image "$IMAGE_TAG" \
               --region "$GCP_REGION" \
@@ -49,7 +62,7 @@ deploy-job:
               --min 1 \
               --max-instances 5 \
               --port 3000 \
-              --set-env-vars TELEGRAM_BOT_API_TOKEN="$TELEGRAM_BOT_API_TOKEN",TELEGRAM_BOT_API_ENDPOINT="$TELEGRAM_BOT_API_ENDPOINT",TELEGRAM_WEBHOOK_URL="$TELEGRAM_WEBHOOK_URL",TELEGRAM_WEBHOOK_SECRET_TOKEN="$TELEGRAM_WEBHOOK_SECRET_TOKEN",GOOGLE_CLOUD_PROJECT_ID="$GCP_PROJECT_ID",FIRESTORE_DATABASE_ID="$FIRESTORE_DATABASE_ID"
-
+              --env-vars-file env.yaml
+        - rm -f env.yaml
 after_script:
     - rm /tmp/service-account-key.json
