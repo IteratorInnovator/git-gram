@@ -1,2 +1,3 @@
 package github
 
+func HandleGitHubEvent()

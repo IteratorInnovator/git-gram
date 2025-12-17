@@ -10,6 +10,7 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/IteratorInnovator/git-gram/config"
 	"github.com/IteratorInnovator/git-gram/telegram"
+	"github.com/IteratorInnovator/git-gram/github"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -104,6 +105,15 @@ func DeleteTelegramWebhook() error {
 }
 
 func HandleTelegramWebhook(c *fiber.Ctx, client *firestore.Client) error {
+	token := c.Get("X-Telegram-Bot-Api-Secret-Token", "")
+	if token == "" || token != config.TelegramCfg.TELEGRAM_WEBHOOK_SECRET_TOKEN {
+		c.Set(fiber.HeaderContentType, "application/problem+json")
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"status": fiber.StatusUnauthorized,
+			"error": "unauthorized",
+		})
+	}
+
 	ctx, cancel := context.WithCancel(c.UserContext())
 	defer cancel()
 	
@@ -113,7 +123,7 @@ func HandleTelegramWebhook(c *fiber.Ctx, client *firestore.Client) error {
 		c.Set(fiber.HeaderContentType, "application/problem+json")
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
-			"error":  "could not parse request body",
+			"error":  err.Error(),
 		})
 	}
 
@@ -128,7 +138,7 @@ func HandleTelegramWebhook(c *fiber.Ctx, client *firestore.Client) error {
 		c.Set(fiber.HeaderContentType, "application/problem+json")
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
-			"error":  "could not send reply",
+			"error":  err.Error(),
 		})
 	}
 
@@ -136,7 +146,18 @@ func HandleTelegramWebhook(c *fiber.Ctx, client *firestore.Client) error {
 }
 
 func HandleGitHubWebhook(c *fiber.Ctx) error {
-	return c.SendStatus(fiber.StatusNotImplemented)
+	sig := c.Get("X-Hub-Signature-256")
+	body := c.Body()
+
+	ok, err := github.VerifyHMAC256Signature(body, sig, config.GithubCfg.GITHUB_WEBHOOK_SECRET_TOKEN)
+	if err != nil || !ok {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"status": fiber.StatusUnauthorized,
+			"error":  err.Error(),
+		})
+	}
+
+	return c.SendStatus(fiber.StatusNoContent)
 }
 
 func HandleSuccessfulInstallation(c *fiber.Ctx, client *firestore.Client) error {
@@ -150,7 +171,7 @@ func HandleSuccessfulInstallation(c *fiber.Ctx, client *firestore.Client) error 
 		c.Set(fiber.HeaderContentType, "application/problem+json")
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
-			"error":  "could not save installation",
+			"error":  err.Error(),
 		})
 	}
 	
