@@ -157,6 +157,15 @@ func HandleGitHubWebhook(c *fiber.Ctx) error {
 		})
 	}
 
+	event := c.Get("X-GitHub-Event")
+	err = github.HandleGitHubWebhookEvent(event)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status": fiber.StatusBadRequest,
+			"error":  err.Error(),
+		})
+	}
+
 	return c.SendStatus(fiber.StatusNoContent)
 }
 
