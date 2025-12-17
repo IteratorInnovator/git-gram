@@ -16,6 +16,7 @@ type TelegramConfig struct {
 type GithubConfig struct {
 	GITHUB_APP_CLIENT_ID string
 	GITHUB_APP_PRIVATE_KEY string
+	GITHUB_WEBHOOK_SECRET_TOKEN string
 }
 
 type AppConfig struct {
