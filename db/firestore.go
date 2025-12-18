@@ -2,11 +2,12 @@ package db
 
 import (
 	"context"
-	"strconv"
 	"errors"
+	"strconv"
 
 	"cloud.google.com/go/firestore"
 	"github.com/IteratorInnovator/git-gram/config"
+	"google.golang.org/api/iterator"
 )
 
 func CreateClient(ctx context.Context) (*firestore.Client, error) {
@@ -111,6 +112,27 @@ func FetchUserInfo(ctx context.Context, client *firestore.Client, chat_id int64)
 	}
 
 	return u.AccountLogin, u.Muted, nil
+}
+
+func FetchChatIdAndMute(ctx context.Context, client *firestore.Client, installation_id int64) (int64, bool, error) {
+	query := client.Collection("users").Select("installation_id").Where("installation_id", "=", installation_id)
+	documentIterator := query.Documents(ctx)
+
+	snap, err := documentIterator.Next()
+	if err != nil || err == iterator.Done {
+		return 0, false, err
+	}
+
+	var data struct {
+		ChatId int64 `firestore:"chat_id"`
+		Muted  bool  `firestore:"muted"` 
+	}
+	err = snap.DataTo(&data)
+	if err != nil {
+		return 0, false, err
+	}
+
+	return data.ChatId, data.Muted, nil
 }
 
 func FetchInstallationId(ctx context.Context, client *firestore.Client, chat_id int64) (int64, error) {
