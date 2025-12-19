@@ -2,9 +2,11 @@ package github
 
 import (
 	"fmt"
+
+	"github.com/gofiber/fiber/v2"
 )
 
-func HandleGitHubWebhookEvent(event string) error {
+func HandleGitHubWebhookEvent(event string, chatId int64, ctx *fiber.Ctx) error {
 	switch (event) {
 		case "push":
 			fmt.Println("push event")

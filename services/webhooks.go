@@ -9,8 +9,9 @@ import (
 
 	"cloud.google.com/go/firestore"
 	"github.com/IteratorInnovator/git-gram/config"
-	"github.com/IteratorInnovator/git-gram/telegram"
+	"github.com/IteratorInnovator/git-gram/db"
 	"github.com/IteratorInnovator/git-gram/github"
+	"github.com/IteratorInnovator/git-gram/telegram"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -57,7 +58,7 @@ func SetTelegramWebHook() error {
 	}
 	err = DeleteTelegramWebhook()
 	if err != nil {
-		return nil
+		return err
 	}
 
 	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "setWebhook")
@@ -145,7 +146,7 @@ func HandleTelegramWebhook(c *fiber.Ctx, client *firestore.Client) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-func HandleGitHubWebhook(c *fiber.Ctx) error {
+func HandleGitHubWebhook(c *fiber.Ctx, client *firestore.Client) error {
 	sig := c.Get("X-Hub-Signature-256")
 	body := c.Body()
 
@@ -157,8 +158,23 @@ func HandleGitHubWebhook(c *fiber.Ctx) error {
 		})
 	}
 
-	event := c.Get("X-GitHub-Event")
-	err = github.HandleGitHubWebhookEvent(event)
+	var installation struct {
+		Installation struct {
+			Id int64 `json:"id"`
+		} `json:"installation"`
+	}
+
+	if err := c.BodyParser(installation) ; err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status": fiber.StatusBadRequest,
+			"error":  err.Error(),
+		})
+	}
+
+	ctx, cancel := context.WithCancel(c.UserContext())
+	defer cancel()
+
+	chatId, muted, err := db.FetchChatIdAndMute(ctx, client, installation.Installation.Id)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
@@ -166,7 +182,20 @@ func HandleGitHubWebhook(c *fiber.Ctx) error {
 		})
 	}
 
-	return c.SendStatus(fiber.StatusNoContent)
+	if muted {
+		return c.SendStatus(fiber.StatusNoContent)
+	}
+
+	event := c.Get("X-GitHub-Event")
+	err = github.HandleGitHubWebhookEvent(event, chatId, c)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"status": fiber.StatusBadRequest,
+			"error":  err.Error(),
+		})
+	}
+
+	return c.SendStatus(fiber.StatusOK)
 }
 
 func HandleSuccessfulInstallation(c *fiber.Ctx, client *firestore.Client) error {
