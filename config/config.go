@@ -3,7 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
-	"strings"
+	"encoding/base64"
 
 	_ "github.com/joho/godotenv/autoload"
 )
@@ -26,13 +26,14 @@ func InitEnv() error {
 		FIRESTORE_DATABASE_ID: os.Getenv("FIRESTORE_DATABASE_ID"),
 	}
 
-	githubAppPrivateKey := os.Getenv("GITHUB_APP_PRIVATE_KEY")
-	githubAppPrivateKey = strings.ReplaceAll(githubAppPrivateKey, `\n`, "\n")
-	githubAppPrivateKey = strings.ReplaceAll(githubAppPrivateKey, `\s`, " ")
+	decodedKey, err := base64.StdEncoding.DecodeString(os.Getenv("GITHUB_APP_PRIVATE_KEY_B64"))
+	if err != nil {
+		return err
+	}
 	GithubCfg = GithubConfig {
 		GITHUB_APP_CLIENT_ID: os.Getenv("GITHUB_APP_CLIENT_ID"),
 		GITHUB_WEBHOOK_SECRET_TOKEN: os.Getenv("GITHUB_WEBHOOK_SECRET_TOKEN"),
-		GITHUB_APP_PRIVATE_KEY: githubAppPrivateKey,
+		GITHUB_APP_PRIVATE_KEY: string(decodedKey),
 	}
 
 	AppCfg = AppConfig {
