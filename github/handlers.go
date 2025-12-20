@@ -73,6 +73,7 @@ func handlePushEvent(ctx *fiber.Ctx, chatId int64) error {
 			pushEvent.Sender.Login,
 			pushEvent.Sender.HTMLURL,
 			formatRef(pushEvent.Ref),
+			formatUnixTimestamp(pushEvent.Repository.PushedAt),
 			shortenSHA(pushEvent.HeadCommit.ID),
 			pushEvent.HeadCommit.Message,
 		)
@@ -84,11 +85,11 @@ func handlePushEvent(ctx *fiber.Ctx, chatId int64) error {
 			pushEvent.Sender.HTMLURL,
 			commitCount,
 			formatRef(pushEvent.Ref),
+			formatUnixTimestamp(pushEvent.Repository.PushedAt),
 			shortenSHA(pushEvent.HeadCommit.ID),
 			pushEvent.HeadCommit.Message,
 		)
 	}
-	
 
 	payload := struct {
 		ChatID      int                  `json:"chat_id"`
