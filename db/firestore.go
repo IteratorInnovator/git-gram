@@ -115,7 +115,7 @@ func FetchUserInfo(ctx context.Context, client *firestore.Client, chat_id int64)
 }
 
 func FetchChatIdAndMute(ctx context.Context, client *firestore.Client, installation_id int64) (int64, bool, error) {
-	query := client.Collection("users").Select("installation_id").Where("installation_id", "==", installation_id)
+	query := client.Collection("users").Select("chat_id", "muted").Where("installation_id", "==", installation_id)
 	documentIterator := query.Documents(ctx)
 
 	snap, err := documentIterator.Next()
