@@ -72,18 +72,6 @@ func handlePushEvent(ctx *fiber.Ctx, chatId int64) error {
 	var messageText string = ""
 	var commitCount int = len(pushEvent.Commits)
 	if commitCount > 1 {
-		fmt.Println("push event: using single commit template")
-		messageText = fmt.Sprintf(
-			message_templates.SingleCommitPush,
-			pushEvent.Repository.FullName,
-			pushEvent.Sender.Login,
-			pushEvent.Sender.HTMLURL,
-			formatRef(pushEvent.Ref),
-			formatUnixTimestamp(pushEvent.Repository.PushedAt),
-			shortenSHA(pushEvent.HeadCommit.ID),
-			pushEvent.HeadCommit.Message,
-		)
-	} else {
 		fmt.Println("push event: using multiple commits template")
 		messageText = fmt.Sprintf(
 			message_templates.MultipleCommitsPush,
@@ -91,6 +79,18 @@ func handlePushEvent(ctx *fiber.Ctx, chatId int64) error {
 			pushEvent.Sender.Login,
 			pushEvent.Sender.HTMLURL,
 			commitCount,
+			formatRef(pushEvent.Ref),
+			formatUnixTimestamp(pushEvent.Repository.PushedAt),
+			shortenSHA(pushEvent.HeadCommit.ID),
+			pushEvent.HeadCommit.Message,
+		)
+	} else {
+		fmt.Println("push event: using single commit template")
+		messageText = fmt.Sprintf(
+			message_templates.SingleCommitPush,
+			pushEvent.Repository.FullName,
+			pushEvent.Sender.Login,
+			pushEvent.Sender.HTMLURL,
 			formatRef(pushEvent.Ref),
 			formatUnixTimestamp(pushEvent.Repository.PushedAt),
 			shortenSHA(pushEvent.HeadCommit.ID),
