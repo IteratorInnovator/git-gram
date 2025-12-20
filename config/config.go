@@ -31,7 +31,7 @@ func InitEnv() error {
 		GITHUB_APP_CLIENT_ID: os.Getenv("GITHUB_APP_CLIENT_ID"),
 		GITHUB_WEBHOOK_SECRET_TOKEN: os.Getenv("GITHUB_WEBHOOK_SECRET_TOKEN"),
 	}
-	fmt.Println(os.Getenv("GITHUB_APP_PRIVATE_KEY_B64")) // debug print statement
+
 	decodedKey, err := base64.StdEncoding.DecodeString(os.Getenv("GITHUB_APP_PRIVATE_KEY_B64"))
 	if err != nil {
 		return err 
