@@ -4,7 +4,7 @@ const SingleCommitPush string = `🔔 *New Push to %s*
 
 [%s](%s) pushed 1 commit to ` + "\\`%s\\`" + ` at %s
 
-Commit: ` + "`%s`" + `
+Commit: ` + "\\`%s\\`" + `
 %s`
 
 
