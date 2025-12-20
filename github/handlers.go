@@ -5,12 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
-	"time"
 
 	"github.com/IteratorInnovator/git-gram/config"
 	"github.com/IteratorInnovator/git-gram/github/message_templates"
-	events "github.com/IteratorInnovator/git-gram/github/message_templates"
 	"github.com/gofiber/fiber/v2"
 )
 

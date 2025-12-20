@@ -2,9 +2,9 @@ package github
 
 import (
 	"strings"
+	"time"
 )
 
-import "time"
 
 // unixSec is seconds since epoch (GitHub repository.pushed_at).
 // Example output: "Thu, 18 Dec 2025, 1:03 AM SGT"
