@@ -30,7 +30,7 @@ func HandleGitHubWebhookEvent(event string, chatId int64, ctx *fiber.Ctx) error 
 }
 
 func handlePushEvent(ctx *fiber.Ctx, chatId int64) error {	
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	var pushEvent PushEvent
 	err := ctx.BodyParser(&pushEvent)

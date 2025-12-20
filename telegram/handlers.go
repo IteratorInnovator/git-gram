@@ -27,7 +27,7 @@ func HandlePostInstallation(ctx context.Context, client *firestore.Client, insta
 
 	db.UpdateInstallation(ctx, client, chatId, installation_id, account_username)
 
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	payload := struct {
 		ChatID      int     `json:"chat_id"`
@@ -78,7 +78,7 @@ func HandleCommand(ctx context.Context, client *firestore.Client, command string
 func handleStart(ctx context.Context, client *firestore.Client, chatId int64) error {
 	db.SaveChat(ctx, client, chatId)
 
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	stateToken, err := generateStateToken(chatId)
 	if err != nil {
@@ -150,7 +150,7 @@ func handleStatus(ctx context.Context, client *firestore.Client, chatId int64) e
 		)
 	}
 
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	payload := struct {
 		ChatID    int    `json:"chat_id"`
@@ -188,7 +188,7 @@ func handleMute(ctx context.Context, client *firestore.Client, chatId int64) err
 		message = MuteSuccessMessage
 	}
 
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	payload := struct {
 		ChatID    int    `json:"chat_id"`
@@ -226,7 +226,7 @@ func handleUnmute(ctx context.Context, client *firestore.Client, chatId int64) e
 		message = UnmuteSuccessMessage
 	}
 
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	payload := struct {
 		ChatID    int    `json:"chat_id"`
@@ -268,7 +268,7 @@ func handleUnlink(ctx context.Context, client *firestore.Client, chatId int64) e
 		db.UpdateInstallation(ctx, client, chatId, 0, "")
 	}
 
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	payload := struct {
 		ChatID    int    `json:"chat_id"`
@@ -295,7 +295,7 @@ func handleUnlink(ctx context.Context, client *firestore.Client, chatId int64) e
 }
 
 func handleHelp(chatId int64) error {
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	payload := struct {
 		ChatID    int    `json:"chat_id"`
@@ -322,7 +322,7 @@ func handleHelp(chatId int64) error {
 }
 
 func handleInvalidCommand(chatId int64) error {
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "sendMessage")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "sendMessage")
 
 	payload := struct {
 		ChatID    int    `json:"chat_id"`

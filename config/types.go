@@ -8,7 +8,6 @@ type FirestoreConfig struct {
 type TelegramConfig struct {
 	TELEGRAM_BOT_API_TOKEN string
 	TELEGRAM_BOT_API_ENDPOINT string
-	TELEGRAM_BOT_API_BASE_URL string
 	TELEGRAM_WEBHOOK_URL string
 	TELEGRAM_WEBHOOK_SECRET_TOKEN string
 }

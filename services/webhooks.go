@@ -16,7 +16,7 @@ import (
 )
 
 func GetTelegramWebhook() (bool, error) {
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "getWebhookInfo")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "getWebhookInfo")
 
 	resp, err := http.Post(url, "application/json", nil)
 	if err != nil {
@@ -61,7 +61,7 @@ func SetTelegramWebHook() error {
 		return err
 	}
 
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "setWebhook")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "setWebhook")
 
 	payload := telegram.WebHookInfo {
 		URL: config.TelegramCfg.TELEGRAM_WEBHOOK_URL,
@@ -84,7 +84,7 @@ func SetTelegramWebHook() error {
 }
 
 func DeleteTelegramWebhook() error {
-	url := fmt.Sprintf("%v%v", config.TelegramCfg.TELEGRAM_BOT_API_BASE_URL, "deleteWebhook")
+	url := fmt.Sprintf("%v/%v", config.TelegramCfg.TELEGRAM_BOT_API_ENDPOINT, "deleteWebhook")
 
 	payload := struct {
 		DropPendingUpdates bool `json:"drop_pending_updates"`
@@ -164,7 +164,7 @@ func HandleGitHubWebhook(c *fiber.Ctx, client *firestore.Client) error {
 		} `json:"installation"`
 	}
 
-	if err := c.BodyParser(installation) ; err != nil {
+	if err := c.BodyParser(&installation) ; err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
 			"error":  err.Error(),
