@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/IteratorInnovator/git-gram/config"
@@ -75,26 +76,26 @@ func handlePushEvent(ctx *fiber.Ctx, chatId int64) error {
 		fmt.Println("push event: using multiple commits template")
 		messageText = fmt.Sprintf(
 			message_templates.MultipleCommitsPush,
-			pushEvent.Repository.FullName,
-			pushEvent.Sender.Login,
-			pushEvent.Sender.HTMLURL,
+			escapeText(pushEvent.Repository.FullName),
+			escapeText(pushEvent.Sender.Login),
+			escapeURL(pushEvent.Sender.HTMLURL),
 			commitCount,
 			formatRef(pushEvent.Ref),
 			formatUnixTimestamp(pushEvent.Repository.PushedAt),
 			shortenSHA(pushEvent.HeadCommit.ID),
-			pushEvent.HeadCommit.Message,
+			escapeText(pushEvent.HeadCommit.Message),
 		)
 	} else {
 		fmt.Println("push event: using single commit template")
 		messageText = fmt.Sprintf(
 			message_templates.SingleCommitPush,
-			pushEvent.Repository.FullName,
-			pushEvent.Sender.Login,
-			pushEvent.Sender.HTMLURL,
+			escapeText(pushEvent.Repository.FullName),
+			escapeText(pushEvent.Sender.Login),
+			escapeURL(pushEvent.Sender.HTMLURL),
 			formatRef(pushEvent.Ref),
 			formatUnixTimestamp(pushEvent.Repository.PushedAt),
 			shortenSHA(pushEvent.HeadCommit.ID),
-			pushEvent.HeadCommit.Message,
+			escapeText(pushEvent.HeadCommit.Message),
 		)
 	}
 
@@ -124,6 +125,16 @@ func handlePushEvent(ctx *fiber.Ctx, chatId int64) error {
 		return err
 	}
 	defer resp.Body.Close()
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("push event: telegram response read failed: %v\n", err)
+	} else {
+		fmt.Printf("push event: telegram response body=%s\n", string(respBody))
+	}
+	if resp.StatusCode != fiber.StatusOK {
+		return fmt.Errorf("telegram response status code: %d", resp.StatusCode)
+	}
 
 	fmt.Printf("push event: telegram response status=%s\n", resp.Status)
 	return nil

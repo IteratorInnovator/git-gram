@@ -45,3 +45,41 @@ func shortenSHA(sha string) string {
 	}
 	return sha[:7]
 }
+
+// escapeText escapes a string for Telegram MarkdownV2 "normal text" context.
+func escapeText(s string) string {
+	// Escape backslash first, then the rest.
+	r := strings.NewReplacer(
+		`\\`, `\\\\`, // if your input can already contain escapes, keep this; otherwise use "\" -> "\\"
+		`\`, `\\`,
+		`_`, `\_`,
+		`*`, `\*`,
+		`[`, `\[`,
+		`]`, `\]`,
+		`(`, `\(`,
+		`)`, `\)`,
+		`~`, `\~`,
+		"`", "\\`",
+		`>`, `\>`,
+		`#`, `\#`,
+		`+`, `\+`,
+		`-`, `\-`,
+		`=`, `\=`,
+		`|`, `\|`,
+		`{`, `\{`,
+		`}`, `\}`,
+		`.`, `\.`,
+		`!`, `\!`,
+	)
+	return r.Replace(s)
+}
+
+
+// escapeURL escapes the URL part inside [text](url) in MarkdownV2.
+func escapeURL(s string) string {
+	r := strings.NewReplacer(
+		`\`, `\\`,
+		`)`, `\)`,
+	)
+	return r.Replace(s)
+}
