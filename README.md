@@ -67,324 +67,324 @@ A Telegram bot that delivers GitHub repository activity notifications directly t
 
 ## Supported GitHub Webhook Events
 
-The following GitHub webhook events can be supported. Check the boxes for events currently implemented:
+The following GitHub webhook events and their action types can be supported. Check the boxes for events currently implemented:
 
 - [ ] `branch_protection_configuration` - Branch protection configuration activity
-  - [ ] `disabled`
+  - [ ] **Action:** `disabled`
 - [ ] `branch_protection_rule` - Branch protection rule activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
 - [ ] `check_run` - Check run activity
-  - [ ] `completed`
-  - [ ] `created`
-  - [ ] `requested_action`
-  - [ ] `rerequested`
+  - [ ] **Action:** `completed`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `requested_action`
+  - [ ] **Action:** `rerequested`
 - [ ] `check_suite` - Check suite activity
-  - [ ] `completed`
-  - [ ] `requested`
-  - [ ] `rerequested`
+  - [ ] **Action:** `completed`
+  - [ ] **Action:** `requested`
+  - [ ] **Action:** `rerequested`
 - [ ] `code_scanning_alert` - Code scanning alert activity
-  - [ ] `appeared_in_branch`
-  - [ ] `closed_by_user`
-  - [ ] `created`
-  - [ ] `fixed`
-  - [ ] `reopened`
-  - [ ] `reopened_by_user`
+  - [ ] **Action:** `appeared_in_branch`
+  - [ ] **Action:** `closed_by_user`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `fixed`
+  - [ ] **Action:** `reopened`
+  - [ ] **Action:** `reopened_by_user`
 - [ ] `commit_comment` - Commit comment activity
-  - [ ] `created`
+  - [ ] **Action:** `created`
 - [x] `create` - Branch or tag creation
 - [ ] `custom_property` - Custom property activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `updated`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `updated`
 - [ ] `custom_property_values` - Custom property values activity
-  - [ ] `updated`
+  - [ ] **Action:** `updated`
 - [ ] `delete` - Branch or tag deletion
 - [ ] `dependabot_alert` - Dependabot alert activity
-  - [ ] `auto_dismissed`
-  - [ ] `auto_reopened`
-  - [ ] `created`
-  - [ ] `dismissed`
-  - [ ] `fixed`
-  - [ ] `reintroduced`
-  - [ ] `reopened`
+  - [ ] **Action:** `auto_dismissed`
+  - [ ] **Action:** `auto_reopened`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `dismissed`
+  - [ ] **Action:** `fixed`
+  - [ ] **Action:** `reintroduced`
+  - [ ] **Action:** `reopened`
 - [ ] `deploy_key` - Deploy key activity
-  - [ ] `created`
-  - [ ] `deleted`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
 - [ ] `deployment` - Deployment activity
-  - [ ] `created`
+  - [ ] **Action:** `created`
 - [ ] `deployment_protection_rule` - Deployment protection rule activity
-  - [ ] `requested`
+  - [ ] **Action:** `requested`
 - [ ] `deployment_review` - Deployment review activity
-  - [ ] `approved`
-  - [ ] `rejected`
-  - [ ] `requested`
+  - [ ] **Action:** `approved`
+  - [ ] **Action:** `rejected`
+  - [ ] **Action:** `requested`
 - [ ] `deployment_status` - Deployment status activity
-  - [ ] `created`
+  - [ ] **Action:** `created`
 - [ ] `discussion` - Discussion activity
-  - [ ] `answered`
-  - [ ] `category_changed`
-  - [ ] `closed`
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `labeled`
-  - [ ] `locked`
-  - [ ] `pinned`
-  - [ ] `reopened`
-  - [ ] `transferred`
-  - [ ] `unanswered`
-  - [ ] `unlabeled`
-  - [ ] `unlocked`
-  - [ ] `unpinned`
+  - [ ] **Action:** `answered`
+  - [ ] **Action:** `category_changed`
+  - [ ] **Action:** `closed`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `labeled`
+  - [ ] **Action:** `locked`
+  - [ ] **Action:** `pinned`
+  - [ ] **Action:** `reopened`
+  - [ ] **Action:** `transferred`
+  - [ ] **Action:** `unanswered`
+  - [ ] **Action:** `unlabeled`
+  - [ ] **Action:** `unlocked`
+  - [ ] **Action:** `unpinned`
 - [ ] `discussion_comment` - Discussion comment activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
 - [ ] `fork` - Repository forked
 - [ ] `github_app_authorization` - GitHub App authorization activity
-  - [ ] `revoked`
+  - [ ] **Action:** `revoked`
 - [ ] `gollum` - Wiki page activity
 - [ ] `installation` - GitHub App installation activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `new_permissions_accepted`
-  - [ ] `suspend`
-  - [ ] `unsuspend`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `new_permissions_accepted`
+  - [ ] **Action:** `suspend`
+  - [ ] **Action:** `unsuspend`
 - [ ] `installation_repositories` - GitHub App installation repositories activity
-  - [ ] `added`
-  - [ ] `removed`
+  - [ ] **Action:** `added`
+  - [ ] **Action:** `removed`
 - [ ] `installation_target` - GitHub App installation target activity
-  - [ ] `renamed`
+  - [ ] **Action:** `renamed`
 - [ ] `issue_comment` - Issue or PR comment activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
 - [ ] `issue_dependencies` - Issue dependencies activity
-  - [ ] `blocked_by_added`
-  - [ ] `blocked_by_removed`
-  - [ ] `blocking_added`
-  - [ ] `blocking_removed`
+  - [ ] **Action:** `blocked_by_added`
+  - [ ] **Action:** `blocked_by_removed`
+  - [ ] **Action:** `blocking_added`
+  - [ ] **Action:** `blocking_removed`
 - [ ] `issues` - Issue activity
-  - [ ] `assigned`
-  - [ ] `closed`
-  - [ ] `deleted`
-  - [ ] `demilestoned`
-  - [ ] `edited`
-  - [ ] `labeled`
-  - [ ] `locked`
-  - [ ] `milestoned`
-  - [ ] `opened`
-  - [ ] `pinned`
-  - [ ] `reopened`
-  - [ ] `transferred`
-  - [ ] `unassigned`
-  - [ ] `unlabeled`
-  - [ ] `unlocked`
-  - [ ] `unpinned`
+  - [ ] **Action:** `assigned`
+  - [ ] **Action:** `closed`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `demilestoned`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `labeled`
+  - [ ] **Action:** `locked`
+  - [ ] **Action:** `milestoned`
+  - [ ] **Action:** `opened`
+  - [ ] **Action:** `pinned`
+  - [ ] **Action:** `reopened`
+  - [ ] **Action:** `transferred`
+  - [ ] **Action:** `unassigned`
+  - [ ] **Action:** `unlabeled`
+  - [ ] **Action:** `unlocked`
+  - [ ] **Action:** `unpinned`
 - [ ] `label` - Label activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
 - [ ] `marketplace_purchase` - GitHub Marketplace purchase activity
-  - [ ] `cancelled`
-  - [ ] `changed`
-  - [ ] `pending_change`
-  - [ ] `pending_change_cancelled`
-  - [ ] `purchased`
+  - [ ] **Action:** `cancelled`
+  - [ ] **Action:** `changed`
+  - [ ] **Action:** `pending_change`
+  - [ ] **Action:** `pending_change_cancelled`
+  - [ ] **Action:** `purchased`
 - [ ] `member` - Repository collaborator activity
-  - [ ] `added`
-  - [ ] `edited`
-  - [ ] `removed`
+  - [ ] **Action:** `added`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `removed`
 - [ ] `membership` - Team membership activity
-  - [ ] `added`
-  - [ ] `removed`
+  - [ ] **Action:** `added`
+  - [ ] **Action:** `removed`
 - [ ] `merge_group` - Merge group activity
-  - [ ] `checks_requested`
-  - [ ] `destroyed`
+  - [ ] **Action:** `checks_requested`
+  - [ ] **Action:** `destroyed`
 - [ ] `meta` - Webhook activity
-  - [ ] `deleted`
+  - [ ] **Action:** `deleted`
 - [ ] `milestone` - Milestone activity
-  - [ ] `closed`
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `opened`
+  - [ ] **Action:** `closed`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `opened`
 - [ ] `org_block` - Organization blocking activity
-  - [ ] `blocked`
-  - [ ] `unblocked`
+  - [ ] **Action:** `blocked`
+  - [ ] **Action:** `unblocked`
 - [ ] `organization` - Organization activity
-  - [ ] `deleted`
-  - [ ] `member_added`
-  - [ ] `member_invited`
-  - [ ] `member_removed`
-  - [ ] `renamed`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `member_added`
+  - [ ] **Action:** `member_invited`
+  - [ ] **Action:** `member_removed`
+  - [ ] **Action:** `renamed`
 - [ ] `package` - GitHub Packages activity
-  - [ ] `published`
-  - [ ] `updated`
+  - [ ] **Action:** `published`
+  - [ ] **Action:** `updated`
 - [ ] `page_build` - GitHub Pages build activity
 - [ ] `personal_access_token_request` - Personal access token request activity
-  - [ ] `approved`
-  - [ ] `cancelled`
-  - [ ] `created`
-  - [ ] `denied`
+  - [ ] **Action:** `approved`
+  - [ ] **Action:** `cancelled`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `denied`
 - [ ] `ping` - Webhook ping
 - [ ] `project` - Project (classic) activity
-  - [ ] `closed`
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `reopened`
+  - [ ] **Action:** `closed`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `reopened`
 - [ ] `project_card` - Project (classic) card activity
-  - [ ] `converted`
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `moved`
+  - [ ] **Action:** `converted`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `moved`
 - [ ] `project_column` - Project (classic) column activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `moved`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `moved`
 - [ ] `projects_v2` - Projects activity
-  - [ ] `closed`
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `reopened`
+  - [ ] **Action:** `closed`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `reopened`
 - [ ] `projects_v2_item` - Projects item activity
-  - [ ] `archived`
-  - [ ] `converted`
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `reordered`
-  - [ ] `restored`
+  - [ ] **Action:** `archived`
+  - [ ] **Action:** `converted`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `reordered`
+  - [ ] **Action:** `restored`
 - [ ] `projects_v2_status_update` - Projects status update activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
 - [ ] `public` - Repository visibility changed to public
 - [ ] `pull_request` - Pull request activity
-  - [ ] `assigned`
-  - [ ] `auto_merge_disabled`
-  - [ ] `auto_merge_enabled`
-  - [ ] `closed`
-  - [ ] `converted_to_draft`
-  - [ ] `demilestoned`
-  - [ ] `dequeued`
-  - [ ] `edited`
-  - [ ] `enqueued`
-  - [ ] `labeled`
-  - [ ] `locked`
-  - [ ] `milestoned`
-  - [ ] `opened`
-  - [ ] `ready_for_review`
-  - [ ] `reopened`
-  - [ ] `review_request_removed`
-  - [ ] `review_requested`
-  - [ ] `synchronize`
-  - [ ] `unassigned`
-  - [ ] `unlabeled`
-  - [ ] `unlocked`
+  - [ ] **Action:** `assigned`
+  - [ ] **Action:** `auto_merge_disabled`
+  - [ ] **Action:** `auto_merge_enabled`
+  - [ ] **Action:** `closed`
+  - [ ] **Action:** `converted_to_draft`
+  - [ ] **Action:** `demilestoned`
+  - [ ] **Action:** `dequeued`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `enqueued`
+  - [ ] **Action:** `labeled`
+  - [ ] **Action:** `locked`
+  - [ ] **Action:** `milestoned`
+  - [ ] **Action:** `opened`
+  - [ ] **Action:** `ready_for_review`
+  - [ ] **Action:** `reopened`
+  - [ ] **Action:** `review_request_removed`
+  - [ ] **Action:** `review_requested`
+  - [ ] **Action:** `synchronize`
+  - [ ] **Action:** `unassigned`
+  - [ ] **Action:** `unlabeled`
+  - [ ] **Action:** `unlocked`
 - [ ] `pull_request_review` - Pull request review activity
-  - [ ] `dismissed`
-  - [ ] `edited`
-  - [ ] `submitted`
+  - [ ] **Action:** `dismissed`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `submitted`
 - [ ] `pull_request_review_comment` - Pull request review comment activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
 - [ ] `pull_request_review_thread` - Pull request review thread activity
-  - [ ] `resolved`
-  - [ ] `unresolved`
+  - [ ] **Action:** `resolved`
+  - [ ] **Action:** `unresolved`
 - [x] `push` - Git push to repository
 - [ ] `registry_package` - Registry package activity
-  - [ ] `published`
-  - [ ] `updated`
+  - [ ] **Action:** `published`
+  - [ ] **Action:** `updated`
 - [ ] `release` - Release activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `prereleased`
-  - [ ] `published`
-  - [ ] `released`
-  - [ ] `unpublished`
-- [x] `repository` - Repository activity
-  - [x] `archived`
-  - [x] `created`
-  - [x] `deleted`
-  - [ ] `edited`
-  - [x] `privatized`
-  - [x] `publicized`
-  - [x] `renamed`
-  - [ ] `transferred`
-  - [x] `unarchived`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `prereleased`
+  - [ ] **Action:** `published`
+  - [ ] **Action:** `released`
+  - [ ] **Action:** `unpublished`
+- [ ] `repository` - Repository activity
+  - [x] **Action:** `archived`
+  - [x] **Action:** `created`
+  - [x] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [x] **Action:** `privatized`
+  - [x] **Action:** `publicized`
+  - [x] **Action:** `renamed`
+  - [ ] **Action:** `transferred`
+  - [x] **Action:** `unarchived`
 - [ ] `repository_advisory` - Repository security advisory activity
-  - [ ] `published`
-  - [ ] `reported`
+  - [ ] **Action:** `published`
+  - [ ] **Action:** `reported`
 - [ ] `repository_dispatch` - Repository dispatch event
 - [ ] `repository_import` - Repository import activity
 - [ ] `repository_ruleset` - Repository ruleset activity
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
 - [ ] `repository_vulnerability_alert` - Repository vulnerability alert activity
-  - [ ] `create`
-  - [ ] `dismiss`
-  - [ ] `resolve`
+  - [ ] **Action:** `create`
+  - [ ] **Action:** `dismiss`
+  - [ ] **Action:** `resolve`
 - [ ] `secret_scanning_alert` - Secret scanning alert activity
-  - [ ] `created`
-  - [ ] `reopened`
-  - [ ] `resolved`
-  - [ ] `revoked`
-  - [ ] `validated`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `reopened`
+  - [ ] **Action:** `resolved`
+  - [ ] **Action:** `revoked`
+  - [ ] **Action:** `validated`
 - [ ] `secret_scanning_alert_location` - Secret scanning alert location activity
-  - [ ] `created`
+  - [ ] **Action:** `created`
 - [ ] `secret_scanning_scan` - Secret scanning scan activity
-  - [ ] `completed`
+  - [ ] **Action:** `completed`
 - [ ] `security_advisory` - Security advisory activity
-  - [ ] `performed`
-  - [ ] `published`
-  - [ ] `updated`
-  - [ ] `withdrawn`
+  - [ ] **Action:** `performed`
+  - [ ] **Action:** `published`
+  - [ ] **Action:** `updated`
+  - [ ] **Action:** `withdrawn`
 - [ ] `security_and_analysis` - Security and analysis activity
 - [ ] `sponsorship` - Sponsorship activity
-  - [ ] `cancelled`
-  - [ ] `created`
-  - [ ] `edited`
-  - [ ] `pending_cancellation`
-  - [ ] `pending_tier_change`
-  - [ ] `tier_changed`
+  - [ ] **Action:** `cancelled`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `pending_cancellation`
+  - [ ] **Action:** `pending_tier_change`
+  - [ ] **Action:** `tier_changed`
 - [ ] `star` - Star activity
-  - [ ] `created`
-  - [ ] `deleted`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
 - [ ] `status` - Commit status updated
 - [ ] `sub_issues` - Sub-issues activity
-  - [ ] `parent_issue_added`
-  - [ ] `parent_issue_removed`
-  - [ ] `sub_issue_added`
-  - [ ] `sub_issue_removed`
+  - [ ] **Action:** `parent_issue_added`
+  - [ ] **Action:** `parent_issue_removed`
+  - [ ] **Action:** `sub_issue_added`
+  - [ ] **Action:** `sub_issue_removed`
 - [ ] `team` - Team activity
-  - [ ] `added_to_repository`
-  - [ ] `created`
-  - [ ] `deleted`
-  - [ ] `edited`
-  - [ ] `removed_from_repository`
+  - [ ] **Action:** `added_to_repository`
+  - [ ] **Action:** `created`
+  - [ ] **Action:** `deleted`
+  - [ ] **Action:** `edited`
+  - [ ] **Action:** `removed_from_repository`
 - [ ] `team_add` - Team added to repository
 - [ ] `watch` - Watch activity
-  - [ ] `started`
+  - [ ] **Action:** `started`
 - [ ] `workflow_dispatch` - Workflow dispatch event
 - [ ] `workflow_job` - Workflow job activity
-  - [ ] `completed`
-  - [ ] `in_progress`
-  - [ ] `queued`
-  - [ ] `waiting`
+  - [ ] **Action:** `completed`
+  - [ ] **Action:** `in_progress`
+  - [ ] **Action:** `queued`
+  - [ ] **Action:** `waiting`
 - [ ] `workflow_run` - Workflow run activity
-  - [ ] `completed`
-  - [ ] `in_progress`
-  - [ ] `requested`
+  - [ ] **Action:** `completed`
+  - [ ] **Action:** `in_progress`
+  - [ ] **Action:** `requested`
 
 > **Note:** Additional events may be supported. This list will be updated as implementation progresses.
 
