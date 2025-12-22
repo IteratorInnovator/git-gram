@@ -147,19 +147,16 @@ func HandleTelegramWebhook(c *fiber.Ctx, client *firestore.Client) error {
 }
 
 func HandleGitHubWebhook(c *fiber.Ctx, client *firestore.Client) error {
-	fmt.Println("github webhook: received request")
 	sig := c.Get("X-Hub-Signature-256")
 	body := c.Body()
 
 	ok, err := github.VerifyHMAC256Signature(body, sig, config.GithubCfg.GITHUB_WEBHOOK_SECRET_TOKEN)
 	if err != nil || !ok {
-		fmt.Printf("github webhook: signature verification failed (ok=%v, err=%v)\n", ok, err)
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
 			"status": fiber.StatusUnauthorized,
 			"error":  err.Error(),
 		})
 	}
-	fmt.Println("github webhook: signature verified")
 
 	var installation struct {
 		Installation struct {
@@ -168,44 +165,36 @@ func HandleGitHubWebhook(c *fiber.Ctx, client *firestore.Client) error {
 	}
 
 	if err := c.BodyParser(&installation) ; err != nil {
-		fmt.Printf("github webhook: body parse failed: %v\n", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
 			"error":  err.Error(),
 		})
 	}
-	fmt.Printf("github webhook: installation id=%d\n", installation.Installation.Id)
 
 	ctx, cancel := context.WithCancel(c.UserContext())
 	defer cancel()
 
 	chatId, muted, err := db.FetchChatIdAndMute(ctx, client, installation.Installation.Id)
 	if err != nil {
-		fmt.Printf("github webhook: fetch chat id failed: %v\n", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
 			"error":  err.Error(),
 		})
 	}
-	fmt.Printf("github webhook: chat id=%d muted=%v\n", chatId, muted)
 
 	if muted {
-		fmt.Println("github webhook: notifications muted")
 		return c.SendStatus(fiber.StatusNoContent)
 	}
 
 	event := c.Get("X-GitHub-Event")
-	fmt.Printf("github webhook: event=%s\n", event)
 	err = github.HandleGitHubWebhookEvent(event, chatId, c)
 	if err != nil {
-		fmt.Printf("github webhook: handler error: %v\n", err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status": fiber.StatusBadRequest,
 			"error":  err.Error(),
 		})
 	}
 
-	fmt.Println("github webhook: handled successfully")
 	return c.SendStatus(fiber.StatusOK)
 }
 

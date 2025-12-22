@@ -52,3 +52,21 @@ type PushEvent struct {
 		URL       string    `json:"url"`       // optional, for [View commit]
 	} `json:"head_commit"`
 }
+
+type CreateEvent struct {
+	Ref          string      `json:"ref"`
+	RefType      string      `json:"ref_type"`
+	MasterBranch string      `json:"master_branch"`
+
+	Repository   struct {
+		Name     string `json:"name"`
+		FullName string `json:"full_name"`
+		HTMLURL          string      `json:"html_url"`
+		PushedAt         time.Time   `json:"pushed_at"`
+	} `json:"repository"`
+
+	Sender struct {
+		Login             string `json:"login"`
+		HTMLURL           string `json:"html_url"`
+	} `json:"sender"`
+}

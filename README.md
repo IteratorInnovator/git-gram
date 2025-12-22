@@ -74,8 +74,8 @@ The following GitHub webhook events can be supported. Check the boxes for events
 - [ ] `pull_request_review_comment` - Comments on PR reviews
 - [ ] `issues` - Issues opened, closed, reopened, etc.
 - [ ] `issue_comment` - Comments on issues and pull requests
-- [ ] `push` - Commits pushed to repository
-- [ ] `create` - Branch or tag created
+- [x] `push` - Commits pushed to repository
+- [x] `create` - Branch or tag created
 - [ ] `delete` - Branch or tag deleted
 - [ ] `release` - Release published, updated, deleted
 - [ ] `fork` - Repository forked
