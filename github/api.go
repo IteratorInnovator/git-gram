@@ -2,10 +2,12 @@ package github
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
-    "errors"
 	"net/http"
+
+	"github.com/IteratorInnovator/git-gram/github/events"
 )
 
 func FetchInstallationAccountUsername(installation_id int64) (string, error) {
@@ -36,7 +38,7 @@ func FetchInstallationAccountUsername(installation_id int64) (string, error) {
 		return "", fmt.Errorf("github get installation failed: status=%d body=%s", resp.StatusCode, string(body))
 	}
 
-	var inst installationResponse
+	var inst events.InstallationResponse
 	err = json.NewDecoder(resp.Body).Decode(&inst)
 	if err != nil {
 		return "", err
