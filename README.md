@@ -69,8 +69,9 @@ A Telegram bot that delivers GitHub repository activity notifications directly t
 
 The following GitHub webhook events and their action types can be supported. Check the boxes for events currently implemented:
 
-- [ ] `branch_protection_configuration` - Branch protection configuration activity
-  - [ ] **Action:** `disabled`
+- [x] `branch_protection_configuration` - Branch protection configuration activity
+  - [x] **Action:** `enabled`
+  - [x] **Action:** `disabled`
 - [ ] `branch_protection_rule` - Branch protection rule activity
   - [ ] **Action:** `created`
   - [ ] **Action:** `deleted`
