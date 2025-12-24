@@ -27,9 +27,7 @@ type BranchProtectionConfiguration struct {
 		Name     string `json:"name"`
 		FullName string `json:"full_name"`
 		HTMLURL          string      `json:"html_url"`
-		CreatedAt        time.Time   `json:"created_at"`
 		UpdatedAt        time.Time   `json:"updated_at"`
-		PushedAt         time.Time   `json:"pushed_at"`
 	} `json:"repository"`
 
 	Sender struct {
