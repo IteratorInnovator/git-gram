@@ -36,11 +36,6 @@ type BranchProtectionConfiguration struct {
 		Login             string `json:"login"`
 		HTMLURL           string `json:"html_url"`
 	} `json:"sender"`
-
-	Installation struct {
-		ID     int    `json:"id"`
-		NodeID string `json:"node_id"`
-	} `json:"installation"`
 }
 
 type CreateEvent struct {
@@ -75,11 +70,6 @@ type DeleteEvent struct {
 		Login             string `json:"login"`
 		HTMLURL           string `json:"html_url"`
 	} `json:"sender"`
-
-	Installation struct {
-		ID     int    `json:"id"`
-		NodeID string `json:"node_id"`
-	} `json:"installation"`
 }
 
 type PushEvent struct {
