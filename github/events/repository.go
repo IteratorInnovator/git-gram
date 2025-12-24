@@ -123,7 +123,7 @@ func BuildRepositoryMessage(repositoryEvent *RepositoryEvent) string {
 				escapeText(repositoryEvent.Sender.Login),
 				escapeURL(repositoryEvent.Sender.HTMLURL),
 				escapeText(repositoryEvent.Changes.Repository.Name.From),
-				escapeText(repositoryEvent.Repository.FullName),
+				escapeText(repositoryEvent.Repository.Name),
 				formatRFC3339Timestamp(repositoryEvent.Repository.UpdatedAt),
 			)
 		case "unarchived":

@@ -56,7 +56,6 @@ type PushEvent struct {
 type CreateEvent struct {
 	Ref          string      `json:"ref"`
 	RefType      string      `json:"ref_type"`
-	MasterBranch string      `json:"master_branch"`
 
 	Repository   struct {
 		Name     string `json:"name"`
@@ -71,6 +70,27 @@ type CreateEvent struct {
 	} `json:"sender"`
 }
 
+type DeleteEvent struct {
+	Ref        string `json:"ref"`
+	RefType    string `json:"ref_type"`
+
+	Repository struct {
+		Name     string `json:"name"`
+		FullName string `json:"full_name"`
+		HTMLURL          string      `json:"html_url"`
+		UpdatedAt        time.Time   `json:"updated_at"`
+	} `json:"repository"`
+
+	Sender struct {
+		Login             string `json:"login"`
+		HTMLURL           string `json:"html_url"`
+	} `json:"sender"`
+
+	Installation struct {
+		ID     int    `json:"id"`
+		NodeID string `json:"node_id"`
+	} `json:"installation"`
+}
 
 type RepositoryEvent struct {
 	Action     string `json:"action"`

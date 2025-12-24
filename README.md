@@ -100,7 +100,7 @@ The following GitHub webhook events and their action types can be supported. Che
   - [ ] **Action:** `updated`
 - [ ] `custom_property_values` - Custom property values activity
   - [ ] **Action:** `updated`
-- [ ] `delete` - Branch or tag deletion
+- [x] `delete` - Branch or tag deletion
 - [ ] `dependabot_alert` - Dependabot alert activity
   - [ ] **Action:** `auto_dismissed`
   - [ ] **Action:** `auto_reopened`
