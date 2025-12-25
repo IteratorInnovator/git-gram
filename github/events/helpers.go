@@ -6,6 +6,15 @@ import (
 )
 
 
+var sgLoc = func() *time.Location {
+	loc, err := time.LoadLocation("Asia/Singapore")
+	if err != nil {
+		return time.FixedZone("SGT", 8*60*60)
+	}
+	return loc
+}()
+
+
 // unixSec is seconds since epoch (GitHub repository.pushed_at).
 // Example output: "Thu, 18 Dec 2025, 1:03 AM SGT"
 func formatUnixTimestamp(unixSec int64) string {
@@ -13,13 +22,13 @@ func formatUnixTimestamp(unixSec int64) string {
 		return ""
 	}
 
-	loc, err := time.LoadLocation("Asia/Singapore")
-	if err != nil {
-		loc = time.FixedZone("SGT", 8*60*60)
-	}
-
-	t := time.Unix(unixSec, 0).In(loc)
+	t := time.Unix(unixSec, 0).In(sgLoc)
 	return t.Format("Mon, 2 Jan 2006, 3:04 PM") + " SGT"
+}
+
+
+func getCurrentTimestamp() string {
+	return time.Now().In(sgLoc).Format("Mon, 2 Jan 2006, 3:04 PM") + " SGT"
 }
 
 
@@ -28,12 +37,7 @@ func formatRFC3339Timestamp(t time.Time) string {
 		return ""
 	}
 
-	loc, err := time.LoadLocation("Asia/Singapore")
-	if err != nil {
-		loc = time.FixedZone("SGT", 8*60*60)
-	}
-
-	return t.In(loc).Format("Mon, 2 Jan 2006, 3:04 PM") + " SGT"
+	return t.In(sgLoc).Format("Mon, 2 Jan 2006, 3:04 PM") + " SGT"
 }
 
 
@@ -52,6 +56,7 @@ func formatRef(ref string) string {
 	}
 	return ref
 }
+
 
 func shortenSHA(sha string) string {
 	if len(sha) <= 7 {

@@ -27,7 +27,6 @@ type BranchProtectionConfiguration struct {
 		Name     string `json:"name"`
 		FullName string `json:"full_name"`
 		HTMLURL          string      `json:"html_url"`
-		UpdatedAt        time.Time   `json:"updated_at"`
 	} `json:"repository"`
 
 	Sender struct {
@@ -61,7 +60,6 @@ type DeleteEvent struct {
 		Name     string `json:"name"`
 		FullName string `json:"full_name"`
 		HTMLURL          string      `json:"html_url"`
-		UpdatedAt        time.Time   `json:"updated_at"`
 	} `json:"repository"`
 
 	Sender struct {

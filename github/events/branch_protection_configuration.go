@@ -43,7 +43,7 @@ func BuildBranchProtectionConfigurationMessage(event *BranchProtectionConfigurat
 				escapeText(event.Repository.FullName),
 				escapeText(event.Sender.Login),
 				escapeURL(event.Sender.HTMLURL),
-				formatRFC3339Timestamp(event.Repository.UpdatedAt),
+				getCurrentTimestamp(),
 			)
 		case "enabled":
 			message = fmt.Sprintf(
@@ -51,7 +51,7 @@ func BuildBranchProtectionConfigurationMessage(event *BranchProtectionConfigurat
 				escapeText(event.Repository.FullName),
 				escapeText(event.Sender.Login),
 				escapeURL(event.Sender.HTMLURL),
-				formatRFC3339Timestamp(event.Repository.UpdatedAt),
+				getCurrentTimestamp(),
 			)
 		default:
 			message = ""

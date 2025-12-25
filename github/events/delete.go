@@ -71,7 +71,7 @@ func BuildDeleteMessage(deleteEvent *DeleteEvent) string {
 				escapeText(deleteEvent.Sender.Login),
 				escapeURL(deleteEvent.Sender.HTMLURL),
 				escapeText(deleteEvent.Ref),
-				formatRFC3339Timestamp(deleteEvent.Repository.UpdatedAt),
+				getCurrentTimestamp(),
 			)
 		case "tag":
 			message = fmt.Sprintf(
@@ -80,7 +80,7 @@ func BuildDeleteMessage(deleteEvent *DeleteEvent) string {
 				escapeText(deleteEvent.Sender.Login),
 				escapeURL(deleteEvent.Sender.HTMLURL),
 				escapeText(deleteEvent.Ref),
-				formatRFC3339Timestamp(deleteEvent.Repository.UpdatedAt),
+				getCurrentTimestamp(),
 			)
 		default:
 			message = ""
