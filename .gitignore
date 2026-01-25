@@ -34,5 +34,7 @@ service-account-credentials.json
 .ssh/
 
 # Editor/IDE
-# .idea/
-# .vscode/
+.idea/
+.vscode/
+
+.claude/
